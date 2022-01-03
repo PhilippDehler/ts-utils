@@ -19,6 +19,7 @@ type ParseSnakeCase<T, TFlag = true> = T extends `${infer Head}${infer Tail}`
         ? Concat<TFlag extends true ? '_' : '', Concat<ToLowerCaseChar<Head>, ParseSnakeCase<Tail>>>
         : Concat<ToString<Head>, ParseSnakeCase<Tail>>
     : '';
+
 type SnakeCase<T> = ReplaceGroup<ParseSnakeCase<Join<Words<T>, '_'>, false>, '_', '_'>;
 
 type ParsePascalCase<T> = T extends [infer Head, ...infer Tail]
@@ -127,7 +128,7 @@ type PadStart_<T extends String, TPad extends String, Diff extends TsNumber> = D
     ? T
     : Concat<Repeat_<TPad, Diff>, T>;
 
-export type PadStart<T extends String, TPad extends String, MaxLength extends Number> = PadStart_<
+export type PadStart<T extends String, TPad extends String, MaxLength extends number> = PadStart_<
     T,
     TPad,
     Subtract<ParseTsNumber<MaxLength>, T>
@@ -140,7 +141,7 @@ type PadEnd_<T extends String, TPad extends String, Diff extends TsNumber> = Dif
     ? T
     : Concat<T, TakeString_<Repeat_<TPad, Diff>, Diff>>;
 
-export type PadEnd<T extends String, TPad extends String, MaxLength extends Number> = PadEnd_<
+export type PadEnd<T extends String, TPad extends String, MaxLength extends number> = PadEnd_<
     T,
     TPad,
     Subtract<ParseTsNumber<MaxLength>, T>
@@ -160,31 +161,31 @@ export type IndexOf<T, TSearch extends String> = T extends `${infer Head}${TSear
     ? GetStringLength<Head>
     : never;
 
-const test = 'asdD' as const;
-type TestString = typeof test;
-type TestUnionToArray = UnionToArr<'d' | 's'>;
+// const test = 'asdD' as const;
+// type TestString = typeof test;
+// type TestUnionToArray = UnionToArr<'d' | 's'>;
 
-type TestIndexOf = IndexOf<TestString, 'sd'>;
-type TestGetStringLength = GetStringLength<TestString>;
-type TestRepeat = Repeat<TestString, 3>;
-type Num2 = '00';
-type Num4 = '0000';
-type PadStartTest = PadStart<TestString, '0', 15>;
-type PadEndTest = PadEnd<TestString, '0', 15>;
+// type TestIndexOf = IndexOf<TestString, 'sd'>;
+// type TestGetStringLength = GetStringLength<TestString>;
+// type TestRepeat = Repeat<TestString, 3>;
+// type Num2 = '00';
+// type Num4 = '0000';
+// type PadStartTest = PadStart<TestString, '0', 15>;
+// type PadEndTest = PadEnd<TestString, '0', 15>;
 
-type TestSplit = Split<TestString, 'a'>;
-type TestWords = Split<TestString, AllSpecialChar>;
-type TestSnakeCase = SnakeCase<TestString>;
-type TestPascalCase = PascalCase<TestString>;
-type TestCamelCase = CamelCase<TestString>;
-type TestKebapCase = KebapCase<TestString>;
-type TestUnion = ToUnion<TestSplit>;
-type JoinTest = Join<TestSplit, '___'>;
-type ReplaceGroupTest = ReplaceGroup<JoinTest, '_', 'abc'>;
-type TestUnion2 = ToUnion<Split<ReplaceGroupTest, 'b'>>;
-type TestIntersection = Intersection<TestUnion2, TestUnion>;
-type TestDifference = Difference<TestUnion2, TestUnion>;
-type TestFlat = Flat<[['a', 'b', 's'], ['c', 's']]>;
-type TestRemFilter = Words<'..asdad.asd.'>;
-type TestFirstCharUpperCase = FirstCharUpperCase<'ssss'>;
-type TestFirstCharLowerCase = FirstCharLowerCase<TestFirstCharUpperCase>;
+// type TestSplit = Split<TestString, 'a'>;
+// type TestWords = Split<TestString, AllSpecialChar>;
+// type TestSnakeCase = SnakeCase<TestString>;
+// type TestPascalCase = PascalCase<TestString>;
+// type TestCamelCase = CamelCase<TestString>;
+// type TestKebapCase = KebapCase<TestString>;
+// type TestUnion = ToUnion<TestSplit>;
+// type JoinTest = Join<TestSplit, '___'>;
+// type ReplaceGroupTest = ReplaceGroup<JoinTest, '_', 'abc'>;
+// type TestUnion2 = ToUnion<Split<ReplaceGroupTest, 'b'>>;
+// type TestIntersection = Intersection<TestUnion2, TestUnion>;
+// type TestDifference = Difference<TestUnion2, TestUnion>;
+// type TestFlat = Flat<[['a', 'b', 's'], ['c', 's']]>;
+// type TestRemFilter = Words<'..asdad.asd.'>;
+// type TestFirstCharUpperCase = FirstCharUpperCase<'ssss'>;
+// type TestFirstCharLowerCase = FirstCharLowerCase<TestFirstCharUpperCase>;

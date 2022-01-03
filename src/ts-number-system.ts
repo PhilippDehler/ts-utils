@@ -1,5 +1,5 @@
 import { Length } from './ts-array-utils';
-import { Not } from './ts-boolean-utils';
+import { NOT } from './ts-boolean-utils';
 import { Empty } from './ts-string-constants';
 import { Concat, GetStringLength, Repeat_, StringTail, UnionToArr } from './ts-string-utils';
 
@@ -57,7 +57,7 @@ export type Modulo<
     : Modulo<Decrement<T>, TMod, Increment<TAgg>>;
 
 export type IsOdd<T extends TsNumber> = Modulo<T, Two> extends One ? true : false;
-export type IsEven<T extends TsNumber> = Not<IsOdd<T>>;
+export type IsEven<T extends TsNumber> = NOT<IsOdd<T>>;
 
 export type IsDivisor<T extends TsNumber, TDivisor extends TsNumber> = Modulo<
     T,

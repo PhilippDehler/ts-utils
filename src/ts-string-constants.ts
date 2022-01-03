@@ -1,5 +1,5 @@
+import { ValueOf } from './ts-object-utils';
 import { Union } from './ts-string-utils';
-import { ValueOf } from './ts-utils';
 
 const upperCaseToLowerCase = {
     A: 'a',

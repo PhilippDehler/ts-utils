@@ -1,9 +1,10 @@
-import { Decrement, ParseTsNumber, TsNumber, Zero } from './ts-number-system';
+import { Decrement, Increment, ParseTsNumber, TsNumber, Zero } from './ts-number-system';
+import { Keys } from './ts-object-utils';
 
 export type Length<T> = T extends { length: infer Length } ? Length : never;
 
 export type Flat<T> = T extends [infer Head, ...infer Tail]
-    ? Head extends Array<unknown>
+    ? Head extends unknown[]
         ? Flat<[...Head, ...Tail]>
         : [Head, ...Flat<Tail>]
     : [];
@@ -13,6 +14,13 @@ export type Filter<T, TFilter> = T extends [infer Head, ...infer Tail]
         ? [Head, ...Filter<Tail, TFilter>]
         : Filter<Tail, TFilter>
     : [];
+
+// export type PlusOne<T extends TsNumber> = Increment<T>;
+
+// export type Increment<T>
+// export type Next<T, PlusOne<T> extends Increment<T> > = T extends [infer Head, ...infer Tail]
+//     ? Next<PlusOne<T>,PluseOne>
+//     : PlusOne<T>;
 
 // type TestFilter = Filter<['', 'a', Empty, Empty], Empty>;
 
@@ -46,3 +54,17 @@ export type Take<T, TCount extends number> = Take_<T, ParseTsNumber<TCount>>;
 
 // type TestDropWile = DropWhile<['a', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v'], 10>;
 // type TestTake = Take<['a', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v'], 2>;
+
+export type Reverse<T> = T extends [...infer Init, infer Last] ? [Last, ...Reverse<Init>] : [];
+
+export type Zip<A0, A1> = Length<A0> extends Length<A1>
+    ? {
+          [key in keyof A0]: key extends keyof A1 ? [A0[key], A1[key]] : never;
+      }
+    : never;
+
+// type TestReverse = Reverse<['s', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v']>;
+// type TestReverse = Zip<
+//     ['s', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v', 'X'],
+//     ['s', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v', 's']
+// >;
