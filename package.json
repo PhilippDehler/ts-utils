@@ -1,19 +1,18 @@
 {
-    "name": "timing-attack-backend",
-    "version": "1.0.0",
-    "description": "Timing-Attack",
-    "main": "index.ts",
-    "author": "Philipp Dehler",
-    "dependencies": {
-        "typescript": "^4.5.4"
-    },
-    "devDependencies": {
-        "ts-node": "10.1.0",
-        "ts-node-dev": "1.1.8"
-    },
-    "scripts": {
-        "dev": "ts-node-dev   --transpile-only -- ./src/index.ts",
-        "start": "ts-node   --transpile-only -- ./src/index.ts",
-        "debug": "ts-node-dev   --transpile-only --inspect -- ./src/index.ts"
-    }
+  "name": "timing-attack-backend",
+  "version": "1.0.0",
+  "description": "Timing-Attack",
+  "main": "index.ts",
+  "author": "Philipp Dehler",
+  "dependencies": {},
+  "devDependencies": {
+    "ts-node": "10.1.0",
+    "ts-node-dev": "1.1.8",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "dev": "ts-node-dev   --transpile-only -- ./src/index.ts",
+    "start": "ts-node   --transpile-only -- ./src/index.ts",
+    "debug": "ts-node-dev   --transpile-only --inspect -- ./src/index.ts"
+  }
 }
