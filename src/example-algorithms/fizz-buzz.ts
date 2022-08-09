@@ -1,5 +1,4 @@
-import { Map, Range } from "../ts-array-utils";
-import { Hkt, HKT } from "../ts-hkt";
+import { Args, Lambda } from "../ts-lambda";
 import { Five, Modulo, ParseTsNumber, Three, Zero } from "../ts-number-system";
 
 type Fizz<num> = Modulo<ParseTsNumber<num>, Three>;
@@ -15,8 +14,8 @@ type Fizzbuzz<num> = num extends number
     : num
   : never;
 
-interface FizzbuzzHKT extends HKT<number, Fizzbuzz<any>> {
-  [Hkt.output]: Fizzbuzz<Hkt.Input<this>>;
+interface $Fizzbuzz extends Lambda {
+  return: Fizzbuzz<Args<this>>;
 }
-// type r = Range<1, 50>;
-type FizzbuzzTest = Map<Range<1, 25>, FizzbuzzHKT>;
+// type r = Range<1, 300>;
+// type FizzbuzzTest = Map<r, $Fizzbuzz>;

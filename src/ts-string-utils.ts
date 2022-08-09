@@ -1,4 +1,4 @@
-import { Init, Length, Remove, Take_ } from "./ts-array-utils";
+import { Init, Length, Remove } from "./ts-array-utils";
 import {
   Decrement,
   ParseTsNumber,
@@ -26,7 +26,7 @@ type SnakeCase<T extends string> = ReplaceGroup<
   "_"
 >;
 
-type ParsePascalCase<T extends string[], TAgg extends string[]=[]> = 
+type ParsePascalCase<T, TAgg extends string[]=[]> = 
   T extends [infer Head extends string, ...infer Tail extends string[]]
     ? ParsePascalCase<Tail, [...TAgg, FirstCharUpperCase<Head>]>
     : TAgg;
@@ -81,7 +81,7 @@ export type SplitEmpty<T extends string> =
   : [];
 
 export type Join<
-  T extends string[],
+  T,
   TJoin extends string,
   TAgg extends string = "",
   Inital extends boolean = true,
@@ -139,31 +139,31 @@ export type PadStart<
   MaxLength extends number,
 > = PadStart_<T, TPad, Subtract<ParseTsNumber<MaxLength>, T>>;
 
-type TakeString_<
-  T extends string, 
-  TCount extends TsNumber, 
-  TTook = Take_<SplitEmpty<T>, TCount>
-> =
-  TTook extends string[]
-    ? Join<TTook, ""> 
-    : never;
+// type TakeString_<
+//   T extends string, 
+//   TCount extends TsNumber, 
+//   TTook = Take_<SplitEmpty<T>, TCount>
+// > =
+//   TTook extends string[]
+//     ? Join<TTook, ""> 
+//     : never;
 
-export type TakeString<T extends string, TCount extends number> = TakeString_<
-  T,
-  ParseTsNumber<TCount>
->;
+// export type TakeString<T extends string, TCount extends number> = TakeString_<
+//   T,
+//   ParseTsNumber<TCount>
+// >;
 
-type PadEnd_<
-  T extends string,
-  TPad extends string,
-  Diff extends TsNumber,
-> = Diff extends never ? T : Concat<T, TakeString_<Repeat_<TPad, Diff>, Diff>>;
+// type PadEnd_<
+//   T extends string,
+//   TPad extends string,
+//   Diff extends TsNumber,
+// > = Diff extends never ? T : Concat<T, TakeString_<Repeat_<TPad, Diff>, Diff>>;
 
-export type PadEnd<
-  T extends string,
-  TPad extends string,
-  MaxLength extends number,
-> = PadEnd_<T, TPad, Subtract<ParseTsNumber<MaxLength>, T>>;
+// export type PadEnd<
+//   T extends string,
+//   TPad extends string,
+//   MaxLength extends number,
+// > = PadEnd_<T, TPad, Subtract<ParseTsNumber<MaxLength>, T>>;
 
 export type Repeat_<T extends string, TRepeat extends TsNumber> = TRepeat extends Zero
   ? ""
@@ -186,14 +186,14 @@ export type IndexOf<
   ? GetStringLength<Head>
   : never;
 
-
+// type TestString = "asfpagfnpagnpoasgpoag asd"
 // type TestIndexOf = IndexOf<TestString, 'sd'>;
 // type TestGetStringLength = GetStringLength<TestString>;
 // type TestRepeat = Repeat<TestString, 3>;
 // type Num2 = '00';
 // type Num4 = '0000';
 // type PadStartTest = PadStart<TestString, '0', 15>;
-// type PadEndTest = PadEnd<TestString, '0', 15>;
+// // type PadEndTest = PadEnd<TestString, '0', 15>;
 
 // type TestSplit = Split<TestString, 'a'>;
 // type TestWords = Split<TestString, AllSpecialChar>;
@@ -203,10 +203,6 @@ export type IndexOf<
 // type TestKebapCase = KebapCase<TestString>;
 // type JoinTest = ReplaceGroup<Join<Words<TestString>, '_'>,"_","_">;
 // type ReplaceGroupTest = ReplaceGroup<JoinTest, '_', 'abc'>;
-// type TestUnion2 = ToUnion<Split<ReplaceGroupTest, 'b'>>;
-// type TestIntersection = Intersection<TestUnion2, TestUnion>;
-// type TestDifference = Difference<TestUnion2, TestUnion>;
-// type TestFlat = Flat<[['a', 'b', 's'], ['c', 's']]>;
 // type TestRemFilter = Words<'..asdad.asd.'>;
 // type TestFirstCharUpperCase = FirstCharUpperCase<'ssss'>;
 // type TestFirstCharLowerCase = FirstCharLowerCase<TestFirstCharUpperCase>;

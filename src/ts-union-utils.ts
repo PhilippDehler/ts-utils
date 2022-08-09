@@ -12,4 +12,8 @@ export type Difference<U0 extends String, U1 extends String> =
     : Head
   : never;
 
-export type ToUnion<T extends unknown[]> = T[number];
+// type TestUnion0 = "A" | "B";
+// type TestUnion1 = "C" | "B";
+
+// type TestDifference = Difference<TestUnion0, TestUnion1>;
+// type TestPermutations = UnionPermutations<TestUnion0 | TestUnion1>;

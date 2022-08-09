@@ -1,93 +1,143 @@
-import { Hkt, HKT } from "./ts-hkt";
-import { Decrement, ParseTsNumber, TsNumber, Zero } from "./ts-number-system";
+import { Args, Call, Lambda, Return } from "./ts-lambda";
 
 export type ArrayOrEmpty<T> = T[] | [];
-export type Length<T> = T extends { length: infer Length } ? Length : never;
-
-export type Flat<T> = T extends [infer Head, ...infer Tail]
-  ? Head extends unknown[]
-    ? Flat<[...Head, ...Tail]>
-    : [Head, ...Flat<Tail>]
-  : [];
-
-export type Filter<T, TFilter> = T extends [infer Head, ...infer Tail]
-  ? Head extends TFilter
-    ? [Head, ...Filter<Tail, TFilter>]
-    : Filter<Tail, TFilter>
-  : [];
-
-export type Remove<T, TFilter> = T extends [infer Head, ...infer Tail]
-  ? Head extends TFilter
-    ? Remove<Tail, TFilter>
-    : [Head, ...Remove<Tail, TFilter>]
-  : [];
-
-export type Tail<T> = T extends [any, ...infer Tail] ? Tail : [];
-export type Head<T> = T extends [infer Head, ...any] ? Head : never;
-
-export type Last<T> = T extends [...any, infer Last] ? Last : never;
-export type Init<T> = T extends [...infer Init, any] ? Init : [];
-
-type DropWhile_<T, TCount extends TsNumber> = TCount extends Zero
-  ? T
-  : DropWhile_<Tail<T>, Decrement<TCount>>;
-export type DropWhile<T, TCount extends number> = DropWhile_<
-  T,
-  ParseTsNumber<TCount>
->;
-
-export type Take_<
-  T extends unknown[],
-  TCount extends TsNumber,
-> = TCount extends Zero ? [] : [Head<T>, ...Take_<Tail<T>, Decrement<TCount>>];
-
-export type Take<T extends unknown[], TCount extends number> = Take_<
-  T,
-  ParseTsNumber<TCount>
->;
-
-export type Reverse<T> = T extends [...infer Init, infer Last]
-  ? [Last, ...Reverse<Init>]
-  : [];
-
-export type Zip<A0, A1> = Length<A0> extends Length<A1>
-  ? {
-      [key in keyof A0]: key extends keyof A1 ? [A0[key], A1[key]] : never;
-    }
-  : never;
-
-export type ValuesOf<T extends Array<unknown>> = T[number];
-
-export type Every<T, M extends HKT> = T extends []
-  ? true
-  : T extends [infer Head, ...infer Tail]
-  ? true extends Hkt.Output<M, Head>
-    ? Every<Tail, M>
-    : false
-  : never;
-
-export type Some<T, M extends HKT> = T extends []
-  ? false
-  : T extends [infer Head, ...infer Tail]
-  ? true extends Hkt.Output<M, Head>
-    ? true
-    : Some<Tail, M>
-  : never;
-
-export type ZipWith<A0, A1, M extends HKT> = Length<A0> extends Length<A1>
-  ? {
-      [key in keyof A0]: key extends keyof A1
-        ? Hkt.Output<M, [A0[key], A1[key]]>
-        : never;
-    }
-  : never;
-
-export type Map<T extends Array<unknown>, M extends HKT> = T extends [
+export type ValuesOf<T extends unknown[]> = T[number];
+export type Length<T extends unknown[]> = T["length"];
+export type TupleKeys<T extends unknown[]> = keyof {
+  [K in keyof T as T[K] extends T[number]
+    ? K extends "length" | number
+      ? never
+      : K
+    : never]: T[K];
+};
+export interface $Length extends Lambda<unknown[]> {
+  return: Length<Args<this>>;
+}
+export type Flat<T extends unknown[], TAgg extends unknown[] = []> = T extends [
   infer Head,
   ...infer Tail,
 ]
-  ? [Hkt.Output<M, Head>, ...Map<Tail, M>]
+  ? Head extends unknown[]
+    ? Flat<Tail, [...TAgg, ...Head]>
+    : Flat<Tail, [...TAgg, Head]>
+  : TAgg;
+
+export type Filter<
+  T extends unknown[],
+  TFilter extends ValuesOf<T>,
+  TAgg extends unknown[] = [],
+> = T extends [infer Head, ...infer Tail]
+  ? Head extends TFilter
+    ? Filter<Tail, TFilter, [...TAgg, Head]>
+    : Filter<Tail, TFilter, TAgg>
+  : TAgg;
+
+export type Remove<
+  T extends unknown[],
+  TRemove extends ValuesOf<T>,
+  TAgg extends unknown[] = [],
+> = T extends [infer Head, ...infer Tail]
+  ? Head extends TRemove
+    ? Remove<Tail, TRemove, TAgg>
+    : Remove<Tail, TRemove, [...TAgg, Head]>
+  : TAgg;
+export type RemoveInit<T extends unknown[], TRemove> = T extends [
+  TRemove,
+  ...infer Tail,
+]
+  ? RemoveInit<Tail, TRemove>
+  : T;
+
+export type Tail<T extends unknown[]> = T extends [any, ...infer Tail]
+  ? Tail
   : [];
+export type Head<T extends unknown[]> = T extends [infer Head, ...any]
+  ? Head
+  : never;
+export type Last<T extends unknown[]> = T extends [...any, infer Last]
+  ? Last
+  : never;
+export type Init<T extends unknown[]> = T extends [...infer Init, any]
+  ? Init
+  : [];
+
+export type Reverse<
+  T extends unknown[],
+  TAgg extends unknown[] = [],
+> = T extends [infer Head, ...infer Tail]
+  ? Reverse<Tail, [Head, ...TAgg]>
+  : TAgg;
+
+export type Zip<
+  A0 extends unknown[],
+  A1 extends unknown[],
+> = Length<A0> extends Length<A1>
+  ? {
+      [Key in keyof A0]: Key extends keyof A1 ? [A0[Key], A1[Key]] : never;
+    }
+  : never;
+
+export type ZipSoft<
+  A extends unknown[],
+  B extends unknown[],
+  Default extends unknown = unknown,
+  TAgg extends Pair[] = [],
+> = A extends [...infer Init0, infer Last0]
+  ? B extends [...infer Init1, infer Last1]
+    ? ZipSoft<Init0, Init1, Default, [[Last0, Last1], ...TAgg]>
+    : ZipSoft<Init0, [], Default, [[Last0, Default], ...TAgg]>
+  : B extends [...infer Init1, infer Last1]
+  ? ZipSoft<[], Init1, Default, [[Default, Last1], ...TAgg]>
+  : TAgg;
+
+export type GetLager<
+  A extends unknown[],
+  B extends unknown[],
+> = keyof A extends keyof B
+  ? keyof B extends keyof A
+    ? A
+    : B
+  : keyof B extends keyof A
+  ? B
+  : never;
+export interface $Every<$TPredicate extends Lambda> extends Lambda<unknown[]> {
+  return: Args<this> extends [infer Head, ...infer Tail]
+    ? Call<$TPredicate, Head> extends true
+      ? Call<$Every<$TPredicate>, Tail>
+      : false
+    : true;
+}
+export interface $Some<$TPredicate extends Lambda> extends Lambda<unknown[]> {
+  return: Args<this> extends [infer Head, ...infer Tail]
+    ? Call<$TPredicate, Head> extends true
+      ? true
+      : Call<$Some<$TPredicate>, Tail>
+    : false;
+}
+
+export interface Pair<Left = unknown, Right = unknown> {
+  0: Left;
+  1: Right;
+}
+
+export type $ZipWith<
+  A0 extends unknown[],
+  A1 extends unknown[],
+  TCallBack extends Lambda<Pair>,
+  TZipped = Zip<A0, A1>,
+> = {
+  [Index in keyof TZipped]: TZipped[Index] extends Pair
+    ? Call<TCallBack, TZipped[Index]>
+    : never;
+};
+
+export type Map<
+  TItems extends Args<$TCallback>[],
+  $TCallback extends Lambda<unknown>,
+  TAgg extends Return<$TCallback>[] = [],
+> = TItems extends [infer Head, ...infer Tail]
+  ? Map<Tail, $TCallback, [...TAgg, Call<$TCallback, Head>]>
+  : TAgg;
 
 type CreateTuple<
   T extends number,
@@ -109,26 +159,41 @@ export type Range<
       [...TAgg, Length<CurrentCount>],
       TupleIncremet<CurrentCount>
     >;
-
-type RangeTest = Range<1, 1000>;
-
+export type FoldRight<
+  Items extends unknown[],
+  $CallBackFn extends Lambda<[currentValue: unknown, aggregator: unknown]>,
+  TAgg = unknown,
+> = Items extends [infer Head, ...infer Tail]
+  ? FoldRight<Tail, $CallBackFn, Call<$CallBackFn, [Head, TAgg]>>
+  : TAgg;
+export type FoldLeft<
+  Items extends unknown[],
+  $CallBackFn extends Lambda<[currentValue: unknown, aggregator: unknown]>,
+  TAgg = unknown,
+> = Items extends [...infer init, infer Last]
+  ? FoldLeft<init, $CallBackFn, Call<$CallBackFn, [Last, TAgg]>>
+  : TAgg;
+// type RangeTest = Range<1, 1000>;
+type RemoveInitTest = RemoveInit<[1, 1, 2, 3], 1>;
 // type TestBin = [true, true, false, false];
+// type TestBin1 = [true, true, true, true];
 
-// type TestSome = Some<TestBin, IsTrueHKT>;
-// type TestSome1 = Some<[false, false], IsTrueHKT>;
-// type TestEvery = Every<TestBin, IsTrueHKT>;
-// type TestEvery1 = Every<[true, true], IsTrueHKT>;
-// type TestMap = Map<['any', 'thing', true], IsTrueHKT>;
-// type TestRemove = Remove<['', 'a', Empty, Empty], Empty>;
-// type TestTail = Tail<['d', 'd', 'E', 'd', 'd', 'd']>;
-// type TestHead = Head<['d', 'd', 'E', 'd', 'd', 'd']>;
-// type TestInit = Init<['d', 'd', 'E', 'd', 'd', 'd']>;
-// type TestLast = Last<['d', 'd', 'E', 'd', 'd', 'd']>;
+// type TestEvery = Call<$Every<$IsTrue>, TestBin>;
+// type TestEvery1 = Call<$Every<$IsTrue>, TestBin1>;
 
-// type TestReverse = Reverse<['s', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v']>;
-// type TestReverse = Zip<
-//     ['s', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v', 'X'],
-//     ['s', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v', 's']
+// type TestSome = Call<$Some<$IsTrue>, TestBin>;
+// type TestSome1 = Call<$Some<$IsTrue>, TestBin1>;
+// type TestSome2 = Call<$Some<$IsFalse>, TestBin1>;
+
+// type TestFilter = Filter<TestBin1, true>;
+// type TestRemove = Remove<TestBin1, true>;
+// type MapTest = Map<[true, false], $IsFalse>;
+// type ReverseTest = Reverse<[true, false]>;
+
+// type TestZip = Zip<
+//   ["s", "v", "a", "v", "a", "v", "a", "a", "v", "a", "v", "X"],
+//   ["s", "v", "a", "v", "a", "v", "a", "a", "v", "a", "v", "s"]
 // >;
-// type TestDropWile = DropWhile<['a', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v'], 10>;
-// type TestTake = Take<['a', 'v', 'a', 'v', 'a', 'v', 'a', 'a', 'v', 'a', 'v'], 2>;
+// type ReverseTest2 = Reverse<TestZip>;
+
+// type TestTupleKeys = TupleKeys<TestBin>;
