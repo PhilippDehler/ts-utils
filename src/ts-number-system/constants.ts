@@ -25,9 +25,11 @@ export type Signs = Positive | Negative;
 
 export declare const plus: unique symbol;
 export declare const minus: unique symbol;
+export declare const multiplication: unique symbol;
 export type Plus = typeof plus;
 export type Minus = typeof minus;
-export type Operations = Plus | Minus;
+export type Multiplication = typeof multiplication;
+export type Operations = Plus | Minus | Multiplication;
 
 export type One = typeof one;
 export type Two = typeof two;
@@ -56,5 +58,5 @@ export type Number = Digit[];
 
 export type ExoticNumber = {
   value: Number;
-  sign: typeof positive | typeof negative;
+  sign: Signs;
 };

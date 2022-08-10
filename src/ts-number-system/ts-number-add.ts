@@ -2,17 +2,18 @@ import { FoldLeft, Pair, ZipSoft } from "../ts-array-utils";
 import { Args, Lambda } from "../ts-lambda";
 import { Digit, ExoticNumber, Number, Zero } from "./constants";
 import { AddingTable } from "./tables";
+import { RemoveLeadingZeros } from "./ts-number-utils";
 
-interface Add extends Lambda<[currentValue: Pair, aggregator: Pair]> {
+export interface $Add extends Lambda<[currentValue: Pair, aggregator: Pair]> {
   return: Args<this> extends [
     currentValue: Pair<Digit, Digit>,
     aggregator: Pair<Number, Digit>,
   ]
-    ? Add__<Args<this>>
+    ? Add<Args<this>>
     : never;
 }
 
-type Add__<
+type Add<
   T extends [currentValue: Pair<Digit, Digit>, aggregator: Pair<Number, Digit>],
   PreviousValue extends Number = T[1][0],
   Left extends Digit = T[0][0],
@@ -31,15 +32,11 @@ type Add__<
 
 type ResolveAddRemainder<T extends Pair<Number, Digit>> = [T[1], ...T[0]];
 
-type Calculate<
+export type Adder<
   A extends ExoticNumber,
   B extends ExoticNumber,
-  Calc extends Lambda<
-    [currentValue: Pair, aggregator: Pair],
-    Pair<Number, Digit>
-  >,
-  $Resolver extends Lambda<unknown, Digit[]>,
-  Prepped extends Number = ZipSoft<A["value"], B["value"], Zero>,
 > = RemoveLeadingZeros<
-  ResolveAddRemainder<FoldLeft<Prepped, Calc, [[], Zero]>>
+  ResolveAddRemainder<
+    FoldLeft<ZipSoft<A["value"], B["value"], Zero>, $Add, [[], Zero]>
+  >
 >;

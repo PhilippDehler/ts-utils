@@ -1,4 +1,4 @@
-import { Digit, GT, LT, Number, SAME } from "./constants";
+import { Digit, ExoticNumber, GT, LT, Number, SAME } from "./constants";
 import { CompareTable } from "./tables";
 
 export type Compare<A extends Number, B extends Number> = keyof B extends keyof A
@@ -6,6 +6,13 @@ export type Compare<A extends Number, B extends Number> = keyof B extends keyof 
     ? CompareSameSize<A, B>
     : GT
   : LT;
+
+export type CompareExotic<A extends ExoticNumber, B extends ExoticNumber> = 
+  keyof B["value"] extends keyof A["value"]
+    ? keyof A["value"]  extends keyof B["value"] 
+      ? CompareSameSize<A["value"] , B["value"] >
+      : GT
+    : LT;
 
 type CompareSameSize<A extends Number, B extends Number> = A extends [
   infer HeadA extends Digit,

@@ -173,6 +173,8 @@ export type FoldLeft<
 > = Items extends [...infer init, infer Last]
   ? FoldLeft<init, $CallBackFn, Call<$CallBackFn, [Last, TAgg]>>
   : TAgg;
+
+export type Concat<A extends unknown[], B extends unknown[]> = [...A, ...B];
 // type RangeTest = Range<1, 1000>;
 type RemoveInitTest = RemoveInit<[1, 1, 2, 3], 1>;
 // type TestBin = [true, true, false, false];

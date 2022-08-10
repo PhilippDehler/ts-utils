@@ -269,6 +269,7 @@ export type AddingTable = {
     [nine]: [Eight, One];
   };
 };
+
 export type SubtractionTable = {
   [zero]: {
     [zero]: [Zero, Zero];
@@ -389,5 +390,128 @@ export type SubtractionTable = {
     [seven]: [Two, Zero];
     [eight]: [One, Zero];
     [nine]: [Zero, Zero];
+  };
+};
+
+export type MultiplicationTable = {
+  [zero]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof zero, typeof zero];
+    [two]: [typeof zero, typeof zero];
+    [three]: [typeof zero, typeof zero];
+    [four]: [typeof zero, typeof zero];
+    [five]: [typeof zero, typeof zero];
+    [six]: [typeof zero, typeof zero];
+    [seven]: [typeof zero, typeof zero];
+    [eight]: [typeof zero, typeof zero];
+    [nine]: [typeof zero, typeof zero];
+  };
+  [one]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof one, typeof zero];
+    [two]: [typeof two, typeof zero];
+    [three]: [typeof three, typeof zero];
+    [four]: [typeof four, typeof zero];
+    [five]: [typeof five, typeof zero];
+    [six]: [typeof six, typeof zero];
+    [seven]: [typeof seven, typeof zero];
+    [eight]: [typeof eight, typeof zero];
+    [nine]: [typeof nine, typeof zero];
+  };
+  [two]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof two, typeof zero];
+    [two]: [typeof four, typeof zero];
+    [three]: [typeof six, typeof zero];
+    [four]: [typeof eight, typeof zero];
+    [five]: [typeof zero, typeof one];
+    [six]: [typeof two, typeof one];
+    [seven]: [typeof four, typeof one];
+    [eight]: [typeof six, typeof one];
+    [nine]: [typeof eight, typeof one];
+  };
+  [three]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof three, typeof zero];
+    [two]: [typeof six, typeof zero];
+    [three]: [typeof nine, typeof zero];
+    [four]: [typeof two, typeof one];
+    [five]: [typeof five, typeof one];
+    [six]: [typeof eight, typeof one];
+    [seven]: [typeof one, typeof two];
+    [eight]: [typeof four, typeof two];
+    [nine]: [typeof seven, typeof two];
+  };
+  [four]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof four, typeof zero];
+    [two]: [typeof eight, typeof zero];
+    [three]: [typeof two, typeof one];
+    [four]: [typeof six, typeof one];
+    [five]: [typeof zero, typeof two];
+    [six]: [typeof four, typeof two];
+    [seven]: [typeof eight, typeof two];
+    [eight]: [typeof two, typeof three];
+    [nine]: [typeof six, typeof three];
+  };
+  [five]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof five, typeof zero];
+    [two]: [typeof zero, typeof one];
+    [three]: [typeof five, typeof one];
+    [four]: [typeof zero, typeof two];
+    [five]: [typeof five, typeof two];
+    [six]: [typeof zero, typeof three];
+    [seven]: [typeof five, typeof three];
+    [eight]: [typeof zero, typeof four];
+    [nine]: [typeof five, typeof four];
+  };
+  [six]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof six, typeof zero];
+    [two]: [typeof two, typeof one];
+    [three]: [typeof eight, typeof one];
+    [four]: [typeof four, typeof two];
+    [five]: [typeof zero, typeof three];
+    [six]: [typeof six, typeof three];
+    [seven]: [typeof two, typeof four];
+    [eight]: [typeof eight, typeof four];
+    [nine]: [typeof four, typeof five];
+  };
+  [seven]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof seven, typeof zero];
+    [two]: [typeof four, typeof one];
+    [three]: [typeof one, typeof two];
+    [four]: [typeof eight, typeof two];
+    [five]: [typeof five, typeof three];
+    [six]: [typeof two, typeof four];
+    [seven]: [typeof nine, typeof four];
+    [eight]: [typeof six, typeof five];
+    [nine]: [typeof three, typeof six];
+  };
+  [eight]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof eight, typeof zero];
+    [two]: [typeof six, typeof one];
+    [three]: [typeof four, typeof two];
+    [four]: [typeof two, typeof three];
+    [five]: [typeof zero, typeof four];
+    [six]: [typeof eight, typeof four];
+    [seven]: [typeof six, typeof five];
+    [eight]: [typeof four, typeof six];
+    [nine]: [typeof two, typeof seven];
+  };
+  [nine]: {
+    [zero]: [typeof zero, typeof zero];
+    [one]: [typeof nine, typeof zero];
+    [two]: [typeof eight, typeof one];
+    [three]: [typeof seven, typeof two];
+    [four]: [typeof six, typeof three];
+    [five]: [typeof five, typeof four];
+    [six]: [typeof four, typeof five];
+    [seven]: [typeof three, typeof six];
+    [eight]: [typeof two, typeof seven];
+    [nine]: [typeof one, typeof eight];
   };
 };

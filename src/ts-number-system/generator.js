@@ -1,24 +1,48 @@
-const x = {
-  1: "one",
-  2: "two",
-  3: "three",
-  4: "four",
-  5: "five",
-  6: "six",
-  7: "seven",
-  8: "eight",
-  9: "nine",
-  0: "zero",
-};
+// const x = {
+//   1: "one",
+//   2: "two",
+//   3: "three",
+//   4: "four",
+//   5: "five",
+//   6: "six",
+//   7: "seven",
+//   8: "eight",
+//   9: "nine",
+//   0: "zero",
+// };
 
-// function printIncrement() {
+// // function printIncrement() {
+// //   const range = [...new Array(10).fill(0).keys()];
+// //   let s = "{";
+// //   for (const i of range) {
+// //     s += `[${x[i]}]:{`;
+// //     for (const j of range) {
+// //       s += `[${x[j]}]: [typeof ${x[(j + i) % 10]}, typeof ${
+// //         x[j + i >= 10 ? 1 : 0]
+// //       }];`;
+// //     }
+// //     s += "};";
+// //   }
+// //   s += "}";
+// //   return s;
+// // }
+// function remainder(n) {
+//   let x = n;
+//   let r = 0;
+//   while (x >= 10) {
+//     x -= 10;
+//     r++;
+//   }
+//   return r;
+// }
+// function printmulti() {
 //   const range = [...new Array(10).fill(0).keys()];
 //   let s = "{";
 //   for (const i of range) {
 //     s += `[${x[i]}]:{`;
 //     for (const j of range) {
-//       s += `[${x[j]}]: [typeof ${x[(j + i) % 10]}, typeof ${
-//         x[j + i >= 10 ? 1 : 0]
+//       s += `[${x[j]}]: [typeof ${x[(j * i) % 10]}, typeof ${
+//         x[remainder(j * i)]
 //       }];`;
 //     }
 //     s += "};";

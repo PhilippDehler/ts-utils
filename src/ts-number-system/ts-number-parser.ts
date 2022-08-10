@@ -1,3 +1,4 @@
+import { Map } from "../ts-array-utils";
 import { Args, Lambda } from "../ts-lambda";
 import { SplitEmpty } from "../ts-string-utils";
 import {
@@ -6,6 +7,7 @@ import {
   four,
   Negative,
   nine,
+  Number,
   one,
   Positive,
   seven,
@@ -36,3 +38,13 @@ interface $NumberDigitTable extends Lambda {
 export type ParseNumber<T extends string> = T extends `-${infer Number}`
   ? { value: Map<SplitEmpty<Number>, $NumberDigitTable>; sign: Negative }
   : { value: Map<SplitEmpty<T>, $NumberDigitTable>; sign: Positive };
+
+export type WrapPositive<T extends Number> = {
+  value: T;
+  sign: Positive;
+};
+
+export type WrapNegative<T extends Number> = {
+  value: T;
+  sign: Negative;
+};

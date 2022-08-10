@@ -1,17 +1,10 @@
 import { Init, Length, Remove } from "./ts-array-utils";
-import {
-  Decrement,
-  ParseTsNumber,
-  Subtract,
-  TsNumber,
-  Zero
-} from "./ts-number-system";
+
 import {
   AllSpecialChar,
   Empty,
   TemplateStringPrimitve, WhitspaceChars
 } from "./ts-string-constants";
-
 export type ToString<T extends TemplateStringPrimitve> = 
   T extends TemplateStringPrimitve 
     ? `${T}` 
@@ -127,17 +120,17 @@ export type RemoveString<
 
 export type Words<T extends string> = Remove<Split<T, AllSpecialChar>, Empty>;
 
-type PadStart_<
-  T extends string,
-  TPad extends string,
-  Diff extends TsNumber,
-> = Diff extends never ? T : Concat<Repeat_<TPad, Diff>, T>;
+// type PadStart_<
+//   T extends string,
+//   TPad extends string,
+//   Diff extends TsNumber,
+// > = Diff extends never ? T : Concat<Repeat_<TPad, Diff>, T>;
 
-export type PadStart<
-  T extends string,
-  TPad extends string,
-  MaxLength extends number,
-> = PadStart_<T, TPad, Subtract<ParseTsNumber<MaxLength>, T>>;
+// export type PadStart<
+//   T extends string,
+//   TPad extends string,
+//   MaxLength extends number,
+// > = PadStart_<T, TPad, Subtract<ParseTsNumber<MaxLength>, T>>;
 
 // type TakeString_<
 //   T extends string, 
@@ -165,14 +158,14 @@ export type PadStart<
 //   MaxLength extends number,
 // > = PadEnd_<T, TPad, Subtract<ParseTsNumber<MaxLength>, T>>;
 
-export type Repeat_<T extends string, TRepeat extends TsNumber> = TRepeat extends Zero
-  ? ""
-  : `${T}${Repeat_<T, Decrement<TRepeat>>}`;
+// export type Repeat_<T extends string, TRepeat extends TsNumber> = TRepeat extends Zero
+//   ? ""
+//   : `${T}${Repeat_<T, Decrement<TRepeat>>}`;
 
-export type Repeat<T extends string, TRepeat extends number> = Repeat_<
-  T,
-  ParseTsNumber<TRepeat>
->;
+// export type Repeat<T extends string, TRepeat extends number> = Repeat_<
+//   T,
+//   ParseTsNumber<TRepeat>
+// >;
 
 export type Includes<
   T extends string,
