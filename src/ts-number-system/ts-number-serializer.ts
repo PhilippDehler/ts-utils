@@ -6,7 +6,7 @@ import {
   ExoticNumber,
   five,
   four,
-  Negative,
+  negative,
   nine,
   one,
   seven,
@@ -34,7 +34,7 @@ type DigitNumberTable = {
   [zero]: "0";
 };
 export type SerializeNumber<T extends ExoticNumber> =
-  `${T["sign"] extends Negative ? "-" : ""}${Join<
+  `${T["sign"] extends typeof negative ? "-" : ""}${Join<
     Map<T["value"], $DigitNumberTable>,
     ""
   >}`;

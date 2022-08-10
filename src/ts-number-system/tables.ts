@@ -6,9 +6,11 @@ import {
   Four,
   four,
   GT,
+  infinity,
   LT,
   Nine,
   nine,
+  NotANumber,
   One,
   one,
   SAME,
@@ -36,6 +38,8 @@ export type CompareTable = {
     [seven]: LT;
     [eight]: LT;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [one]: {
     [zero]: GT;
@@ -48,6 +52,8 @@ export type CompareTable = {
     [seven]: LT;
     [eight]: LT;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [two]: {
     [zero]: GT;
@@ -60,6 +66,8 @@ export type CompareTable = {
     [seven]: LT;
     [eight]: LT;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [three]: {
     [zero]: GT;
@@ -70,6 +78,8 @@ export type CompareTable = {
     [five]: LT;
     [six]: LT;
     [seven]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
     [eight]: LT;
     [nine]: LT;
   };
@@ -82,6 +92,8 @@ export type CompareTable = {
     [five]: LT;
     [six]: LT;
     [seven]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
     [eight]: LT;
     [nine]: LT;
   };
@@ -96,6 +108,8 @@ export type CompareTable = {
     [seven]: LT;
     [eight]: LT;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [six]: {
     [zero]: GT;
@@ -108,6 +122,8 @@ export type CompareTable = {
     [seven]: LT;
     [eight]: LT;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [seven]: {
     [zero]: GT;
@@ -120,6 +136,8 @@ export type CompareTable = {
     [seven]: SAME;
     [eight]: LT;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [eight]: {
     [zero]: GT;
@@ -132,6 +150,8 @@ export type CompareTable = {
     [seven]: GT;
     [eight]: SAME;
     [nine]: LT;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
   [nine]: {
     [zero]: GT;
@@ -144,6 +164,36 @@ export type CompareTable = {
     [seven]: GT;
     [eight]: GT;
     [nine]: SAME;
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
+  };
+  [infinity]: {
+    [zero]: [SAME, typeof zero];
+    [one]: [SAME, typeof zero];
+    [two]: [SAME, typeof zero];
+    [three]: [SAME, typeof zero];
+    [four]: [SAME, typeof zero];
+    [five]: [SAME, typeof zero];
+    [six]: [SAME, typeof zero];
+    [seven]: [SAME, typeof zero];
+    [eight]: [SAME, typeof zero];
+    [nine]: [SAME, typeof zero];
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
+  };
+  [NotANumber]: {
+    [zero]: [SAME, typeof zero];
+    [one]: [SAME, typeof zero];
+    [two]: [SAME, typeof zero];
+    [three]: [SAME, typeof zero];
+    [four]: [SAME, typeof zero];
+    [five]: [SAME, typeof zero];
+    [six]: [SAME, typeof zero];
+    [seven]: [SAME, typeof zero];
+    [eight]: [SAME, typeof zero];
+    [nine]: [SAME, typeof zero];
+    [infinity]: [SAME, typeof zero];
+    [NotANumber]: [SAME, typeof zero];
   };
 };
 
@@ -159,6 +209,8 @@ export type AddingTable = {
     [seven]: [Seven, Zero];
     [eight]: [Eight, Zero];
     [nine]: [Nine, Zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [one]: {
     [zero]: [One, Zero];
@@ -171,6 +223,8 @@ export type AddingTable = {
     [seven]: [Eight, Zero];
     [eight]: [Nine, Zero];
     [nine]: [Zero, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [two]: {
     [zero]: [Two, Zero];
@@ -183,6 +237,8 @@ export type AddingTable = {
     [seven]: [Nine, Zero];
     [eight]: [Zero, One];
     [nine]: [One, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [three]: {
     [zero]: [Three, Zero];
@@ -195,6 +251,8 @@ export type AddingTable = {
     [seven]: [Zero, One];
     [eight]: [One, One];
     [nine]: [Two, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [four]: {
     [zero]: [Four, Zero];
@@ -207,6 +265,8 @@ export type AddingTable = {
     [seven]: [One, One];
     [eight]: [Two, One];
     [nine]: [Three, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [five]: {
     [zero]: [Five, Zero];
@@ -219,6 +279,8 @@ export type AddingTable = {
     [seven]: [Two, One];
     [eight]: [Three, One];
     [nine]: [Four, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [six]: {
     [zero]: [Six, Zero];
@@ -231,6 +293,8 @@ export type AddingTable = {
     [seven]: [Three, One];
     [eight]: [Four, One];
     [nine]: [Five, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [seven]: {
     [zero]: [Seven, Zero];
@@ -243,6 +307,8 @@ export type AddingTable = {
     [seven]: [Four, One];
     [eight]: [Five, One];
     [nine]: [Six, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [eight]: {
     [zero]: [Eight, Zero];
@@ -255,6 +321,8 @@ export type AddingTable = {
     [seven]: [Five, One];
     [eight]: [Six, One];
     [nine]: [Seven, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [nine]: {
     [zero]: [Nine, Zero];
@@ -267,6 +335,36 @@ export type AddingTable = {
     [seven]: [Six, One];
     [eight]: [Seven, One];
     [nine]: [Eight, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
+  };
+  [infinity]: {
+    [zero]: [typeof infinity, typeof zero];
+    [one]: [typeof infinity, typeof zero];
+    [two]: [typeof infinity, typeof zero];
+    [three]: [typeof infinity, typeof zero];
+    [four]: [typeof infinity, typeof zero];
+    [five]: [typeof infinity, typeof zero];
+    [six]: [typeof infinity, typeof zero];
+    [seven]: [typeof infinity, typeof zero];
+    [eight]: [typeof infinity, typeof zero];
+    [nine]: [typeof infinity, typeof zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
+  };
+  [NotANumber]: {
+    [zero]: [typeof NotANumber, typeof zero];
+    [one]: [typeof NotANumber, typeof zero];
+    [two]: [typeof NotANumber, typeof zero];
+    [three]: [typeof NotANumber, typeof zero];
+    [four]: [typeof NotANumber, typeof zero];
+    [five]: [typeof NotANumber, typeof zero];
+    [six]: [typeof NotANumber, typeof zero];
+    [seven]: [typeof NotANumber, typeof zero];
+    [eight]: [typeof NotANumber, typeof zero];
+    [nine]: [typeof NotANumber, typeof zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
 };
 
@@ -282,6 +380,8 @@ export type SubtractionTable = {
     [seven]: [Three, One];
     [eight]: [Two, One];
     [nine]: [One, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [one]: {
     [zero]: [One, Zero];
@@ -294,6 +394,8 @@ export type SubtractionTable = {
     [seven]: [Four, One];
     [eight]: [Three, One];
     [nine]: [Two, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [two]: {
     [zero]: [Two, Zero];
@@ -306,6 +408,8 @@ export type SubtractionTable = {
     [seven]: [Five, One];
     [eight]: [Four, One];
     [nine]: [Three, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [three]: {
     [zero]: [Three, Zero];
@@ -318,6 +422,8 @@ export type SubtractionTable = {
     [seven]: [Six, One];
     [eight]: [Five, One];
     [nine]: [Four, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [four]: {
     [zero]: [Four, Zero];
@@ -330,6 +436,8 @@ export type SubtractionTable = {
     [seven]: [Seven, One];
     [eight]: [Six, One];
     [nine]: [Five, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [five]: {
     [zero]: [Five, Zero];
@@ -342,6 +450,8 @@ export type SubtractionTable = {
     [seven]: [Eight, One];
     [eight]: [Seven, One];
     [nine]: [Six, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [six]: {
     [zero]: [Six, Zero];
@@ -354,6 +464,8 @@ export type SubtractionTable = {
     [seven]: [Nine, One];
     [eight]: [Eight, One];
     [nine]: [Seven, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [seven]: {
     [zero]: [Seven, Zero];
@@ -366,6 +478,8 @@ export type SubtractionTable = {
     [seven]: [Zero, Zero];
     [eight]: [Nine, One];
     [nine]: [Eight, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [eight]: {
     [zero]: [Eight, Zero];
@@ -378,6 +492,8 @@ export type SubtractionTable = {
     [seven]: [One, Zero];
     [eight]: [Zero, Zero];
     [nine]: [Nine, One];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [nine]: {
     [zero]: [Nine, Zero];
@@ -390,6 +506,37 @@ export type SubtractionTable = {
     [seven]: [Two, Zero];
     [eight]: [One, Zero];
     [nine]: [Zero, Zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
+  };
+  [infinity]: {
+    [zero]: [typeof infinity, typeof zero];
+    [one]: [typeof infinity, typeof zero];
+    [two]: [typeof infinity, typeof zero];
+    [three]: [typeof infinity, typeof zero];
+    [four]: [typeof infinity, typeof zero];
+    [five]: [typeof infinity, typeof zero];
+    [six]: [typeof infinity, typeof zero];
+    [seven]: [typeof infinity, typeof zero];
+    [eight]: [typeof infinity, typeof zero];
+    [nine]: [typeof infinity, typeof zero];
+
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
+  };
+  [NotANumber]: {
+    [zero]: [typeof NotANumber, typeof zero];
+    [one]: [typeof NotANumber, typeof zero];
+    [two]: [typeof NotANumber, typeof zero];
+    [three]: [typeof NotANumber, typeof zero];
+    [four]: [typeof NotANumber, typeof zero];
+    [five]: [typeof NotANumber, typeof zero];
+    [six]: [typeof NotANumber, typeof zero];
+    [seven]: [typeof NotANumber, typeof zero];
+    [eight]: [typeof NotANumber, typeof zero];
+    [nine]: [typeof NotANumber, typeof zero];
+    [infinity]: [typeof NotANumber, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
 };
 
@@ -405,6 +552,8 @@ export type MultiplicationTable = {
     [seven]: [typeof zero, typeof zero];
     [eight]: [typeof zero, typeof zero];
     [nine]: [typeof zero, typeof zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [one]: {
     [zero]: [typeof zero, typeof zero];
@@ -417,6 +566,8 @@ export type MultiplicationTable = {
     [seven]: [typeof seven, typeof zero];
     [eight]: [typeof eight, typeof zero];
     [nine]: [typeof nine, typeof zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [two]: {
     [zero]: [typeof zero, typeof zero];
@@ -429,6 +580,8 @@ export type MultiplicationTable = {
     [seven]: [typeof four, typeof one];
     [eight]: [typeof six, typeof one];
     [nine]: [typeof eight, typeof one];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [three]: {
     [zero]: [typeof zero, typeof zero];
@@ -441,6 +594,8 @@ export type MultiplicationTable = {
     [seven]: [typeof one, typeof two];
     [eight]: [typeof four, typeof two];
     [nine]: [typeof seven, typeof two];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [four]: {
     [zero]: [typeof zero, typeof zero];
@@ -453,6 +608,8 @@ export type MultiplicationTable = {
     [seven]: [typeof eight, typeof two];
     [eight]: [typeof two, typeof three];
     [nine]: [typeof six, typeof three];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [five]: {
     [zero]: [typeof zero, typeof zero];
@@ -465,6 +622,8 @@ export type MultiplicationTable = {
     [seven]: [typeof five, typeof three];
     [eight]: [typeof zero, typeof four];
     [nine]: [typeof five, typeof four];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [six]: {
     [zero]: [typeof zero, typeof zero];
@@ -477,6 +636,8 @@ export type MultiplicationTable = {
     [seven]: [typeof two, typeof four];
     [eight]: [typeof eight, typeof four];
     [nine]: [typeof four, typeof five];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [seven]: {
     [zero]: [typeof zero, typeof zero];
@@ -489,6 +650,8 @@ export type MultiplicationTable = {
     [seven]: [typeof nine, typeof four];
     [eight]: [typeof six, typeof five];
     [nine]: [typeof three, typeof six];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [eight]: {
     [zero]: [typeof zero, typeof zero];
@@ -501,6 +664,8 @@ export type MultiplicationTable = {
     [seven]: [typeof six, typeof five];
     [eight]: [typeof four, typeof six];
     [nine]: [typeof two, typeof seven];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
   [nine]: {
     [zero]: [typeof zero, typeof zero];
@@ -513,5 +678,35 @@ export type MultiplicationTable = {
     [seven]: [typeof three, typeof six];
     [eight]: [typeof two, typeof seven];
     [nine]: [typeof one, typeof eight];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
+  };
+  [infinity]: {
+    [zero]: [typeof infinity, typeof zero];
+    [one]: [typeof infinity, typeof zero];
+    [two]: [typeof infinity, typeof zero];
+    [three]: [typeof infinity, typeof zero];
+    [four]: [typeof infinity, typeof zero];
+    [five]: [typeof infinity, typeof zero];
+    [six]: [typeof infinity, typeof zero];
+    [seven]: [typeof infinity, typeof zero];
+    [eight]: [typeof infinity, typeof zero];
+    [nine]: [typeof infinity, typeof zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
+  };
+  [NotANumber]: {
+    [zero]: [typeof NotANumber, typeof zero];
+    [one]: [typeof NotANumber, typeof zero];
+    [two]: [typeof NotANumber, typeof zero];
+    [three]: [typeof NotANumber, typeof zero];
+    [four]: [typeof NotANumber, typeof zero];
+    [five]: [typeof NotANumber, typeof zero];
+    [six]: [typeof NotANumber, typeof zero];
+    [seven]: [typeof NotANumber, typeof zero];
+    [eight]: [typeof NotANumber, typeof zero];
+    [nine]: [typeof NotANumber, typeof zero];
+    [infinity]: [typeof infinity, typeof zero];
+    [NotANumber]: [typeof NotANumber, typeof zero];
   };
 };

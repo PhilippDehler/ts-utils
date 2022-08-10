@@ -2,17 +2,19 @@ import { FoldLeft, GetLager, Map, Pair, ZipSoft } from "../ts-array-utils";
 import { Args, Lambda } from "../ts-lambda";
 import {
   Digit,
-  Eight,
   ExoticNumber,
-  Nine,
+  Minus,
+  negative,
   Number,
   One,
-  Positive,
+  OneExotic,
+  positive,
   Zero,
 } from "./constants";
 import { AddingTable, SubtractionTable } from "./tables";
-import { ParseNumber } from "./ts-number-parser";
+import { Calculate } from "./ts-number-calculator";
 import { RemoveLeadingZeros } from "./ts-number-utils";
+
 interface $Sub extends Lambda<[currentValue: Pair, aggregator: Pair]> {
   return: Args<this> extends [
     currentValue: Pair<Digit, Digit>,
@@ -38,7 +40,6 @@ type Sub<
   NextValue extends Digit = Next[0],
   NextRemainder extends Digit = AddingTable[Next[1]][IntermediateRemainder][0],
 > = [[NextValue, ...PreviousValue], NextRemainder];
-type TestSub = Sub<[[Eight, Nine], [[], Zero]]>;
 
 type ResolveSubRemainder<T extends Pair<Number, Digit>> = T[0];
 
@@ -46,16 +47,9 @@ export type SubtractorNegative<
   A extends ExoticNumber,
   B extends ExoticNumber,
 > = Subtractor<
-  { value: GetNextHigherDecimal<A, B>; sign: Positive },
-  { value: RemoveLeadingZeros<Subtractor<A, B>>; sign: Positive }
+  { value: GetNextHigherDecimal<A, B>; sign: typeof positive },
+  { value: RemoveLeadingZeros<Subtractor<A, B>>; sign: typeof negative }
 >;
-
-type U = ParseNumber<"1000">;
-type C = ParseNumber<"1999">;
-type Zipped = ZipSoft<U["value"], C["value"], Zero>;
-type L = GetNextHigherDecimal<U, C>;
-type F = Subtractor<U, C>;
-type O = SubtractorNegative<U, C>;
 
 export type Subtractor<
   A extends ExoticNumber,
@@ -77,3 +71,5 @@ type GetNextHigherDecimal<
     ? [One, ...Map<Num, $ToZero>]
     : never
   : never;
+
+export type Decrement<A extends ExoticNumber> = Calculate<A, OneExotic, Minus>;

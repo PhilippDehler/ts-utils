@@ -3,13 +3,14 @@ import { Args, Lambda } from "../ts-lambda";
 import { SplitEmpty } from "../ts-string-utils";
 import {
   eight,
+  ExoticNumber,
   five,
   four,
-  Negative,
+  negative,
   nine,
   Number,
   one,
-  Positive,
+  positive,
   seven,
   six,
   three,
@@ -36,15 +37,25 @@ interface $NumberDigitTable extends Lambda {
 }
 
 export type ParseNumber<T extends string> = T extends `-${infer Number}`
-  ? { value: Map<SplitEmpty<Number>, $NumberDigitTable>; sign: Negative }
-  : { value: Map<SplitEmpty<T>, $NumberDigitTable>; sign: Positive };
+  ? { value: Map<SplitEmpty<Number>, $NumberDigitTable>; sign: typeof negative }
+  : { value: Map<SplitEmpty<T>, $NumberDigitTable>; sign: typeof positive };
 
 export type WrapPositive<T extends Number> = {
   value: T;
-  sign: Positive;
+  sign: typeof positive;
 };
 
 export type WrapNegative<T extends Number> = {
   value: T;
-  sign: Negative;
+  sign: typeof negative;
+};
+
+export type Positive<T extends ExoticNumber> = {
+  value: T["value"];
+  sign: typeof positive;
+};
+
+export type Negative<T extends ExoticNumber> = {
+  value: T["value"];
+  sign: typeof negative;
 };

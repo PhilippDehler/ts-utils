@@ -175,8 +175,6 @@ export type FoldLeft<
   : TAgg;
 
 export type Concat<A extends unknown[], B extends unknown[]> = [...A, ...B];
-// type RangeTest = Range<1, 1000>;
-type RemoveInitTest = RemoveInit<[1, 1, 2, 3], 1>;
 // type TestBin = [true, true, false, false];
 // type TestBin1 = [true, true, true, true];
 

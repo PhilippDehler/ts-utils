@@ -1,7 +1,8 @@
 import { FoldLeft, Pair, ZipSoft } from "../ts-array-utils";
 import { Args, Lambda } from "../ts-lambda";
-import { Digit, ExoticNumber, Number, Zero } from "./constants";
+import { Digit, ExoticNumber, Number, OneExotic, Zero } from "./constants";
 import { AddingTable } from "./tables";
+import { Calculate } from "./ts-number-calculator";
 import { RemoveLeadingZeros } from "./ts-number-utils";
 
 export interface $Add extends Lambda<[currentValue: Pair, aggregator: Pair]> {
@@ -40,3 +41,5 @@ export type Adder<
     FoldLeft<ZipSoft<A["value"], B["value"], Zero>, $Add, [[], Zero]>
   >
 >;
+
+export type Increment<A extends ExoticNumber> = Calculate<A, OneExotic>;

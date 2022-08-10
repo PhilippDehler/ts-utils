@@ -56,3 +56,20 @@ export type ForceWidening<T> = T extends string
         };
 
 export type Primitve = string | number | bigint | boolean | null | undefined;
+
+interface $Cache<$CachedFn extends Lambda, TChacheAgg extends unknown = {}>
+  extends Lambda<{ key: unknown; value: unknown }> {
+  cache: TChacheAgg;
+  return: Args<this>["key"] extends keyof this["cache"]
+    ? this["cache"][Args<this>["key"]]
+    : Args<this>["key"] extends string
+    ? $Cache<
+        $CachedFn,
+        TChacheAgg & {
+          [K in Args<this>["key"]]: Call<$CachedFn, Args<this>["value"]>;
+        }
+      >
+    : never;
+}
+//sounds good doesn't work
+type GetCache<TCache extends $Cache<Lambda>> = TCache["cache"];

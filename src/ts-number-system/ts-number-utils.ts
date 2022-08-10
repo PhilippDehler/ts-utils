@@ -1,7 +1,7 @@
 import { FoldLeft, RemoveInit } from "../ts-array-utils";
 import { Args, Lambda } from "../ts-lambda";
 import { Number, Zero } from "./constants";
-import { Adder } from "./ts-number-add";
+import { Adder } from "./ts-number-addition";
 import { WrapPositive } from "./ts-number-parser";
 
 export type RemoveLeadingZeros<T extends Number> = RemoveInit<T, Zero>;
