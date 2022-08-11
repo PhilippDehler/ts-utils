@@ -1,5 +1,6 @@
-import { Narrow } from "../../../utility-types";
-import { Trim } from "../../utils";
+
+import { Trim } from "../../ts-string-utils";
+import { Narrow } from "../../ts-utils";
 import { GraphQLEnum } from "./GraphQLEnum";
 import { GraphQLInputObject } from "./GraphQLInput";
 import { GraphQLMutation } from "./GraphQLMutation";

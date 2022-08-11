@@ -1,3 +1,5 @@
+import { Trim } from "../../ts-string-utils";
+
 type Split<
   T,
   Delimiter extends string,
@@ -26,3 +28,15 @@ type SplitMultiple_<T extends string[], Delimiter extends string[] = []> = Delim
 ]
   ? SplitMultiple_<FlatSplit<T, D>, Rest>
   : T;
+
+  export type TrimmedSplit<
+  T extends string,
+  Delimiter extends string,
+  TAgg extends string[] = [],
+> = T extends `${infer Start}${Delimiter}${infer Rest}`
+  ? TrimmedSplit<
+      Rest,
+      Delimiter,
+      [...TAgg, ...(Trim<Start> extends "" ? [] : [Trim<Start>])]
+    >
+  : [...TAgg, ...(Trim<T> extends "" ? [] : [Trim<T>])];

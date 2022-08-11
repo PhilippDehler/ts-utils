@@ -1,6 +1,6 @@
-import { TrimmedSplit } from "../../../utility-types";
 import { ParseGraphQLObjectReferencesFromLines } from "./GraphQLObject";
 import { CreateGraphQLReferenceFromKeyValueString, GraphQLReference } from "./GraphQLReference";
+import { TrimmedSplit } from "./utils";
 
 export type GraphQLMutation = {
   key: string;

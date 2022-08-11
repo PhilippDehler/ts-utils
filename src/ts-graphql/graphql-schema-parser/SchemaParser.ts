@@ -11,19 +11,7 @@ import {
 } from "./GraphQLObject";
 import { GraphQLQuery, ParseGraphQLQueriesFromLines } from "./GraphQLQuery";
 import { GraphQLScalarType, GraphQLScalarTypes } from "./GraphQLScalarTypes";
-import { FlatSplit } from "./utils";
-
-export type TrimmedSplit<
-  T extends string,
-  Delimiter extends string,
-  TAgg extends string[] = [],
-> = T extends `${infer Start}${Delimiter}${infer Rest}`
-  ? TrimmedSplit<
-      Rest,
-      Delimiter,
-      [...TAgg, ...(Trim<Start> extends "" ? [] : [Trim<Start>])]
-    >
-  : [...TAgg, ...(Trim<T> extends "" ? [] : [Trim<T>])];
+import { FlatSplit, TrimmedSplit } from "./utils";
 
 export type GraphQLSchemaTypes = [
   "object",
