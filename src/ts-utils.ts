@@ -25,3 +25,21 @@ export type Narrow<A> =
 export const throwNotImplemented = <T>(): T => {
   throw new Error("Not implemented yet!");
 };
+
+export type ForceWidening<T> = T extends string
+  ? string
+  : never | T extends number
+  ? number
+  : never | T extends bigint
+  ? bigint
+  : never | T extends boolean
+  ? boolean
+  : never | T extends any[]
+  ? T extends [infer Head, ...infer Tail]
+    ? [ForceWidening<Head>, ...ForceWidening<Tail>]
+    : []
+  :
+      | never
+      | {
+          [K in keyof T]: T[K] extends Function ? T[K] : ForceWidening<T[K]>;
+        };

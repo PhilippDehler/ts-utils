@@ -1,6 +1,6 @@
-import { ArrayToObject } from "../../ts-array-utils";
-import { Concat } from "../../ts-string-utils";
-import { throwNotImplemented } from "../../ts-utils";
+import { ArrayToObject } from "./../ts-array-utils";
+import { Concat } from "./../ts-string-utils";
+import { throwNotImplemented } from "./../ts-utils";
 import {
   PickOptional,
   PickVariablesValueByKey,

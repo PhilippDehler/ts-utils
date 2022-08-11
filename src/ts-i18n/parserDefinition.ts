@@ -1,4 +1,4 @@
-import { infer } from "../../utils/infer";
+import { infer } from "./../utils/infer";
 
 export const parserDefinition = infer([
   ["serializer", `|`, "match", null, false],

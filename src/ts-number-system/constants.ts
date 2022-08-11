@@ -32,13 +32,15 @@ export declare const minus: unique symbol;
 export declare const multiplication: unique symbol;
 export declare const division: unique symbol;
 export declare const mod: unique symbol;
+export declare const power: unique symbol;
 
 export type Plus = typeof plus;
 export type Minus = typeof minus;
 export type Division = typeof division;
 export type Multiplication = typeof multiplication;
 export type Mod = typeof mod;
-export type Operations = Plus | Minus | Multiplication | Division | Mod;
+export type Power = typeof power;
+export type Operations = Plus | Minus | Multiplication | Division | Mod | Power;
 
 export type Infinity = typeof infinity;
 export type One = typeof one;

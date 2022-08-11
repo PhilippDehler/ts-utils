@@ -1,4 +1,4 @@
-import { Narrow, throwNotImplemented } from "../../ts-utils";
+import { Narrow, throwNotImplemented } from "./../ts-utils";
 import { createVariableSchema } from "./createI18nSchema";
 import { ValidateI18nDefinitionInput } from "./variable-definition/i18nDefinitionValidators";
 

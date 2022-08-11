@@ -1,17 +1,23 @@
+import { Last } from "../ts-array-utils";
+import { $IsFalse } from "../ts-boolean-utils";
+import { Call } from "../ts-lambda";
 import {
+  Eight,
   ExoticNumber,
+  Four,
   InfinityExotic,
   Minus,
-  Mod,
   Multiplication,
   NaNExotic,
   OneExotic,
+  Six,
+  Two,
+  Zero,
   ZeroExotic,
 } from "./constants";
 import { Increment } from "./ts-number-addition";
 import { Calculate } from "./ts-number-calculator";
 import { EqualsExotic, GTExotic, LTExotic } from "./ts-number-compare";
-import { ParseNumber } from "./ts-number-parser";
 import { Decrement } from "./ts-number-subtraction";
 
 export type Modulo<
@@ -34,4 +40,13 @@ export type Modulo<
   ? Calculate<A, Calculate<B, Decrement<TAgg>, Multiplication>, Minus>
   : never;
 
-type X = Calculate<ParseNumber<"129">, ParseNumber<"3">, Mod>;
+export type IsEven<A extends ExoticNumber> = Last<A["value"]> extends
+  | Zero
+  | Two
+  | Four
+  | Six
+  | Eight
+  ? true
+  : false;
+
+export type IsOdd<A extends ExoticNumber> = Call<$IsFalse, IsEven<A>>;

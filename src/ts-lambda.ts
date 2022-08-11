@@ -1,3 +1,6 @@
+import { KeyValuePair } from "./ts-object-utils";
+import { ForceWidening, Narrow } from "./ts-utils";
+
 export declare const lambda: unique symbol;
 
 /**
@@ -37,24 +40,6 @@ export type Args<M extends Lambda> = M["args"];
 
 export type Return<M extends Lambda> = M["return"];
 
-export type ForceWidening<T> = T extends string
-  ? string
-  : never | T extends number
-  ? number
-  : never | T extends bigint
-  ? bigint
-  : never | T extends boolean
-  ? boolean
-  : never | T extends any[]
-  ? T extends [infer Head, ...infer Tail]
-    ? [ForceWidening<Head>, ...ForceWidening<Tail>]
-    : []
-  :
-      | never
-      | {
-          [K in keyof T]: T[K] extends Function ? T[K] : ForceWidening<T[K]>;
-        };
-
 export type Primitve = string | number | bigint | boolean | null | undefined;
 
 interface $Cache<$CachedFn extends Lambda, TChacheAgg extends unknown = {}>
@@ -65,11 +50,15 @@ interface $Cache<$CachedFn extends Lambda, TChacheAgg extends unknown = {}>
     : Args<this>["key"] extends string
     ? $Cache<
         $CachedFn,
-        TChacheAgg & {
-          [K in Args<this>["key"]]: Call<$CachedFn, Args<this>["value"]>;
-        }
+        Narrow<
+          TChacheAgg &
+            KeyValuePair<
+              Args<this>["key"],
+              Call<$CachedFn, Args<this>["value"]>
+            >
+        >
       >
     : never;
 }
-//sounds good doesn't work
+//sounds good doesn't work, because typescript is caching all args by default, but maybe it's working in a recursive stack. I don't knwo yet
 type GetCache<TCache extends $Cache<Lambda>> = TCache["cache"];

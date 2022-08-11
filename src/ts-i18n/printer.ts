@@ -1,4 +1,4 @@
-import { Filter } from "../../ts-array-utils";
+import { Filter } from "./../ts-array-utils";
 
 export type Print<T> = T extends string
   ? T

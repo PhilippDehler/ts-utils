@@ -14,13 +14,14 @@ import {
   plus,
   Plus,
   positive,
+  power,
   SAME,
   Zero,
 } from "./constants";
 import { Adder } from "./ts-number-addition";
 import { CompareExotic } from "./ts-number-compare";
 import { Divider } from "./ts-number-division";
-import { Modulo } from "./ts-number-modulo";
+import { IsEven, Modulo } from "./ts-number-modulo";
 import { Multiplier } from "./ts-number-multiplication";
 import {
   Negative,
@@ -29,6 +30,7 @@ import {
   WrapNegative,
   WrapPositive,
 } from "./ts-number-parser";
+import { Power } from "./ts-number-power";
 import { SerializeNumber } from "./ts-number-serializer";
 import { Subtractor, SubtractorNegative } from "./ts-number-subtraction";
 
@@ -108,6 +110,23 @@ export type Calculate<
     };
     [negative]: {
       [positive]: Negative<Divider<Positive<A>, Positive<B>>>;
+      [negative]: Divider<Positive<A>, Positive<B>>;
+    };
+  };
+  [power]: {
+    [positive]: {
+      [positive]: Power<A, B>;
+      //TODO:Root
+      [negative]: Negative<Divider<Positive<A>, Positive<B>>>;
+    };
+    [negative]: {
+      [positive]: Power<A, B> extends infer Result
+        ? Result extends ExoticNumber
+          ? IsEven<B> extends true
+            ? Result
+            : Negative<Result>
+          : never
+        : never;
       [negative]: Divider<Positive<A>, Positive<B>>;
     };
   };
