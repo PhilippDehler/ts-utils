@@ -10,3 +10,5 @@ export type IsEmptyObject<T extends object> = keyof T extends never
 export type RemoveNeverValues<T> = {
   [K in keyof T as T[K] extends never ? never : K]: T[K];
 };
+
+export type KeyValuePair<Key extends string, Value> = { [K in Key]: Value };

@@ -197,3 +197,7 @@ export type Concat<A extends unknown[], B extends unknown[]> = [...A, ...B];
 // type ReverseTest2 = Reverse<TestZip>;
 
 // type TestTupleKeys = TupleKeys<TestBin>;
+
+export type ArrayToObject<T, TArray extends string[] = []> = {
+  [key in TArray[number]]: T;
+};

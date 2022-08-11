@@ -21,3 +21,7 @@ export type Narrow<A> =
   | {
       [K in keyof A]: A[K] extends Function ? A[K] : Narrow<A[K]>;
     };
+
+export const throwNotImplemented = <T>(): T => {
+  throw new Error("Not implemented yet!");
+};
