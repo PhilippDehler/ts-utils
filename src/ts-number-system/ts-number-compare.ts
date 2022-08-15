@@ -1,5 +1,5 @@
 import { Digit, ExoticNumber, GT, LT, Number, SAME } from "./constants";
-import { CompareTable } from "./tables";
+import { BitCompareTable } from "./tables";
 
 export type Compare<
   A extends Number,
@@ -24,9 +24,9 @@ type CompareSameSize<A extends Number, B extends Number> = A extends [
   ...infer TailA extends Number,
 ]
   ? B extends [infer HeadB extends Digit, ...infer TailB extends Number]
-    ? CompareTable[HeadA][HeadB] extends SAME
+    ? BitCompareTable[HeadA][HeadB] extends SAME
       ? CompareSameSize<TailA, TailB>
-      : CompareTable[HeadA][HeadB]
+      : BitCompareTable[HeadA][HeadB]
     : never
   : SAME;
 

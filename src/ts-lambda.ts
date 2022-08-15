@@ -25,14 +25,19 @@ export interface Compose<
   I extends Args<B> = Args<B>,
 > extends Lambda {
   args: I;
-  return: Call<A, Call<B, Args<this>>>;
+  intermediate: Call<B, Args<this>>;
+  return: this["intermediate"] extends Args<A>
+    ? Call<A, this["intermediate"]>
+    : never;
 }
 
 export interface EmptyLambda extends Lambda {}
 /**
  * Gets return type value from a Lambda type function
  */
-export type Call<M extends Lambda, T> = (M & { args: T })["return"];
+export type Call<M extends Lambda, T extends Args<M>> = (M & {
+  args: T;
+})["return"];
 /**
  * Extracts the argument from a lambda function
  */
@@ -41,6 +46,16 @@ export type Args<M extends Lambda> = M["args"];
 export type Return<M extends Lambda> = M["return"];
 
 export type Primitve = string | number | bigint | boolean | null | undefined;
+
+interface UpperCase extends Lambda<string> {
+  return: Uppercase<Args<this>>;
+}
+interface LowerCase extends Lambda<string> {
+  return: Lowercase<Args<this>>;
+}
+
+type Test = Call<UpperCase, "asd">; // "ASD"
+type ComposeTest = Call<Compose<LowerCase, UpperCase>, "asdasd">; // "asdasd"
 
 interface $Cache<$CachedFn extends Lambda, TChacheAgg extends unknown = {}>
   extends Lambda<{ key: unknown; value: unknown }> {

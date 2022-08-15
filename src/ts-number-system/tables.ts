@@ -26,7 +26,7 @@ import {
   zero,
 } from "./constants";
 
-export type CompareTable = {
+export type BitCompareTable = {
   [zero]: {
     [zero]: SAME;
     [one]: LT;
