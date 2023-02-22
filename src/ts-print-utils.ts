@@ -1,7 +1,9 @@
 import { Filter } from "./ts-array-utils";
 
-export type Print<T> = T extends string
+export type Print<T> = T extends string | number
   ? T
+  : T extends bigint
+  ? `${T}n`
   : T extends null
   ? "null"
   : T extends true
@@ -11,10 +13,8 @@ export type Print<T> = T extends string
   : T extends any[]
   ? PrintArray<T>
   : T extends (...args: any) => any
-  ? PrintError<"UNPRINTABLE", "Can't print function">
-  : T extends Object
-  ? PrintError<"UNPRINTABLE", "Can't print object">
-  : never;
+  ? `(...${Print<Parameters<T>>}) => ${Print<ReturnType<T>>}`
+  : `[Object Object]`;
 
 export type PrintError<
   TInfo extends string,
@@ -36,10 +36,9 @@ export type PrintArray<
 
 type HasPartialMatch<I extends string, T extends string[]> = T[number] &
   `${I}${string}`;
-type PartialMatches<I extends string, T extends string[]> = HasPartialMatch<
-  I,
-  T
-> extends never
+type PartialMatches<I extends string, T extends string[]> = [
+  HasPartialMatch<I, T>,
+] extends [never]
   ? []
   : Filter<T, Exclude<T[number], HasPartialMatch<I, T>>>;
 

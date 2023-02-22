@@ -1,5 +1,5 @@
+import { infer } from "../useful-utils/infer";
 import { Narrow, throwNotImplemented } from "./../ts-utils";
-import { infer } from "./../utils/infer";
 import { Call } from "./utils/utility-types";
 import {
   BuildVariableDefinitionsFromInput,

@@ -58,13 +58,13 @@ export type GTExotic<
   A extends ExoticNumber,
   B extends ExoticNumber,
   Comparison extends CompareExotic<A, B> = CompareExotic<A, B>,
-> = Comparison extends  GT ? true : false;
+> = Comparison extends GT ? true : false;
 
 export type LTExotic<
   A extends ExoticNumber,
   B extends ExoticNumber,
   Comparison extends CompareExotic<A, B> = CompareExotic<A, B>,
-> = Comparison extends  LT ? true : false;
+> = Comparison extends LT ? true : false;
 
 export type LTEExotic<
   A extends ExoticNumber,

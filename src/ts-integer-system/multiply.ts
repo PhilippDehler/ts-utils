@@ -19,7 +19,7 @@ type Multiplikation<
   ? Multiplikation<
       A,
       Init,
-      [[...MultiplySingleBit<A, Last>,...TrailingZeros], ...TAgg],
+      [[...MultiplySingleBit<A, Last>, ...TrailingZeros], ...TAgg],
       [...TrailingZeros, Zero]
     >
   : TAgg;
@@ -34,4 +34,4 @@ type MultiplySingleBit<A extends ByteArray, B extends Bit> = Map<
   A,
   $Multiplikation<B>
 >;
-type Y = Multiplikation<[One,Zero],[One,Zero]>
+type Y = Multiplikation<[One, Zero], [One, Zero]>;

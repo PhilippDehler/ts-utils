@@ -1,4 +1,12 @@
-import { Args, Call, Lambda, Return } from "./ts-lambda";
+import {
+  $FoldOperation,
+  $FoldRight,
+  $Override,
+  Args,
+  Call,
+  Lambda,
+  Return,
+} from "./ts-lambda";
 
 export type ArrayOrEmpty<T> = T[] | [];
 export type ValuesOf<T extends unknown[]> = T[number];
@@ -10,37 +18,60 @@ export type TupleKeys<T extends unknown[]> = keyof {
       : K
     : never]: T[K];
 };
+
 export interface $Length extends Lambda<unknown[]> {
   return: Length<Args<this>>;
 }
-export type Flat<T extends unknown[], TAgg extends unknown[] = []> = T extends [
-  infer Head,
-  ...infer Tail,
+
+export type Flatten<T extends unknown[]> = Call<$Flatten, T>;
+
+export type $Flatten = $FoldRight<$$Flattten, []>;
+export interface $$Flattten extends $FoldOperation {
+  return: Args<this>["curr"] extends unknown[]
+    ? [...this["agg"], ...Call<$Flatten, Args<this>["curr"]>]
+    : [...this["agg"], Args<this>["curr"]];
+}
+
+export type Filter<T extends unknown[], TFilter extends ValuesOf<T>> = Call<
+  $Filter<TFilter>,
+  T
+>;
+export type $Filter<TFilter> = $FoldRight<$$Filter<TFilter>, []>;
+interface $$Filter<TFilter> extends $FoldOperation {
+  return: Args<this>["curr"] extends TFilter
+    ? [...this["agg"], Args<this>["curr"]]
+    : this["agg"];
+}
+
+export type Remove<T extends unknown[], TRemove extends ValuesOf<T>> = Call<
+  $Remove<TRemove>,
+  T
+>;
+export type $Remove<TRemove> = $FoldRight<$$Remove<TRemove>, []>;
+interface $$Remove<TRemove> extends $FoldOperation {
+  return: Args<this>["curr"] extends TRemove
+    ? this["agg"]
+    : [...this["agg"], Args<this>["curr"]];
+}
+
+export type QuickFind<T extends unknown[], TFind> = [T[number]] extends [
+  infer N,
 ]
-  ? Head extends unknown[]
-    ? Flat<Tail, [...TAgg, ...Head]>
-    : Flat<Tail, [...TAgg, Head]>
-  : TAgg;
+  ? N extends TFind
+    ? N
+    : never
+  : never;
 
-export type Filter<
-  T extends unknown[],
-  TFilter extends ValuesOf<T>,
-  TAgg extends unknown[] = [],
-> = T extends [infer Head, ...infer Tail]
-  ? Head extends TFilter
-    ? Filter<Tail, TFilter, [...TAgg, Head]>
-    : Filter<Tail, TFilter, TAgg>
-  : TAgg;
+interface $$Find<TFind> extends $FoldOperation {
+  return: this["agg"] extends [never]
+    ? [Args<this>["curr"]] extends [TFind]
+      ? Args<this>["curr"]
+      : never
+    : this["agg"][0];
+}
+//TODO: slow
+export type $Find<TFind> = $FoldRight<$$Find<TFind>, never>;
 
-export type Remove<
-  T extends unknown[],
-  TRemove extends ValuesOf<T>,
-  TAgg extends unknown[] = [],
-> = T extends [infer Head, ...infer Tail]
-  ? Head extends TRemove
-    ? Remove<Tail, TRemove, TAgg>
-    : Remove<Tail, TRemove, [...TAgg, Head]>
-  : TAgg;
 export type RemoveInit<T extends unknown[], TRemove> = T extends [
   TRemove,
   ...infer Tail,
@@ -57,6 +88,23 @@ export type Head<T extends unknown[]> = T extends [infer Head, ...any]
 export type Last<T extends unknown[]> = T extends [...any, infer Last]
   ? Last
   : never;
+
+export type HeadExt<T extends unknown[], E> = T extends [infer Head, ...any]
+  ? Head extends E
+    ? Head
+    : never
+  : never;
+export type InitExt<T extends unknown[], E> = T extends [...infer Init, any]
+  ? Init extends E
+    ? Init
+    : never
+  : never;
+export type LastExt<T extends unknown[], E> = T extends [...any, infer Last]
+  ? Last extends E
+    ? Last
+    : never
+  : never;
+
 export type Init<T extends unknown[]> = T extends [...infer Init, any]
   ? Init
   : [];
@@ -89,6 +137,12 @@ export type ZipSoft<
   : B extends [...infer Init1, infer Last1]
   ? ZipSoft<[], Init1, Default, [[Default, Last1], ...TAgg]>
   : TAgg;
+
+export type Includes<T extends unknown[], U> = [U] extends [T[number]]
+  ? true
+  : false;
+export type Push<T extends unknown[], Item> = [...T, Item];
+export type Unshift<T extends unknown[], Item> = [Item, ...T];
 
 export type GetLager<
   A extends unknown[],
@@ -139,6 +193,23 @@ export type Map<
   ? Map<Tail, $TCallback, [...TAgg, Call<$TCallback, Head>]>
   : TAgg;
 
+export type FlatMap<
+  TItems extends Args<$TCallback>[],
+  $TCallback extends Lambda<unknown>,
+  TAgg extends unknown[] = [],
+> = TItems extends [infer Head, ...infer Tail]
+  ? FlatMap<
+      Tail,
+      $TCallback,
+      [
+        ...TAgg,
+        ...(Call<$TCallback, Head> extends unknown[]
+          ? Call<$TCallback, Head>
+          : [Call<$TCallback, Head>]),
+      ]
+    >
+  : TAgg;
+
 type CreateTuple<
   T extends number,
   TAgg extends unknown[] = [],
@@ -159,6 +230,7 @@ export type Range<
       [...TAgg, Length<CurrentCount>],
       TupleIncremet<CurrentCount>
     >;
+
 export type FoldRight<
   Items extends unknown[],
   $CallBackFn extends Lambda<[currentValue: unknown, aggregator: unknown]>,
@@ -166,6 +238,7 @@ export type FoldRight<
 > = Items extends [infer Head, ...infer Tail]
   ? FoldRight<Tail, $CallBackFn, Call<$CallBackFn, [Head, TAgg]>>
   : TAgg;
+
 export type FoldLeft<
   Items extends unknown[],
   $CallBackFn extends Lambda<[currentValue: unknown, aggregator: unknown]>,
@@ -175,6 +248,12 @@ export type FoldLeft<
   : TAgg;
 
 export type Concat<A extends unknown[], B extends unknown[]> = [...A, ...B];
+
+export type Fill<T extends unknown[], TType extends unknown> = Map<
+  T,
+  $Override<TType>
+>;
+
 // type TestBin = [true, true, false, false];
 // type TestBin1 = [true, true, true, true];
 

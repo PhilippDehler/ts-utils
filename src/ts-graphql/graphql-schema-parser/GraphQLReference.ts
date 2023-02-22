@@ -1,4 +1,3 @@
-
 import { Trim } from "../../ts-string-utils";
 import { Narrow } from "../../ts-utils";
 import { GraphQLEnum } from "./GraphQLEnum";
@@ -10,22 +9,39 @@ import { GraphQLScalarType } from "./GraphQLScalarTypes";
 import { FlatGraphQLSchema } from "./SchemaParser";
 import { SplitMultiple } from "./utils";
 
-export type GraphQLReference = { key: string; referenceKey: string; original: string };
+export type GraphQLReference = {
+  key: string;
+  referenceKey: string;
+  original: string;
+};
 
-export type ExtractGraphQLReference<T extends string> = T extends `${infer Inner}!`
-  ? ExtractGraphQLReference<Inner>
-  : T extends `[${infer Inner}]`
-  ? ExtractGraphQLReference<Inner>
-  : T;
+export type ExtractGraphQLReference<T extends string> =
+  T extends `${infer Inner}!`
+    ? ExtractGraphQLReference<Inner>
+    : T extends `[${infer Inner}]`
+    ? ExtractGraphQLReference<Inner>
+    : T;
 
+export type CreateGraphQLReferenceFromKeyValueString<T extends string> =
+  SplitMultiple<T, [":", " ", "\n"]> extends [
+    infer Key extends string,
+    infer Reference extends string,
+  ]
+    ? {
+        key: Key;
+        referenceKey: ExtractGraphQLReference<Reference>;
+        original: Reference;
+      }
+    : {
+        key: Trim<T>;
+        referenceKey: ExtractGraphQLReference<Trim<T>>;
+        original: Trim<T>;
+      };
 
-export type CreateGraphQLReferenceFromKeyValueString<T extends string> = SplitMultiple<
-  T,
-  [":", " ", "\n"]
-> extends [infer Key extends string, infer Reference extends string]
-  ? { key: Key; referenceKey: ExtractGraphQLReference<Reference>; original: Reference }
-  : { key: Trim<T>; referenceKey: ExtractGraphQLReference<Trim<T>>; original: Trim<T> };
-type FindWeak<T extends unknown[], TFind extends unknown> = T extends [infer Head, ...infer Tail]
+export type FindWeak<T extends unknown[], TFind extends unknown> = T extends [
+  infer Head,
+  ...infer Tail,
+]
   ? Head extends TFind
     ? Head
     : TFind extends Head
@@ -37,7 +53,10 @@ export type ResolveReference<
   T extends GraphQLReference,
   Schema extends FlatGraphQLSchema[],
 > = Narrow<{
-  [K in T["key"]]: FindWeak<Schema, { key: T["referenceKey"] }> extends infer ReferencedItem
+  [K in T["key"]]: FindWeak<
+    Schema,
+    { key: T["referenceKey"] }
+  > extends infer ReferencedItem
     ? ReferencedItem extends GraphQLEnum
       ? ReferencedItem["values"][number]
       : ReferencedItem extends GraphQLObject

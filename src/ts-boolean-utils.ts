@@ -1,6 +1,6 @@
 import { $ZipWith, Pair } from "./ts-array-utils";
+import { Empty } from "./ts-constants";
 import { Args, Call, Compose, Lambda } from "./ts-lambda";
-import { Empty } from "./ts-string-constants";
 
 export type Binary = boolean[];
 export type BinaryPair = { 0: boolean; 1: boolean };

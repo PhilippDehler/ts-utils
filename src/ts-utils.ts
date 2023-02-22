@@ -26,7 +26,7 @@ export const throwNotImplemented = <T>(): T => {
   throw new Error("Not implemented yet!");
 };
 
-export type ForceWidening<T> = T extends string
+export type WidenStructure<T> = T extends string
   ? string
   : never | T extends number
   ? number
@@ -34,12 +34,14 @@ export type ForceWidening<T> = T extends string
   ? bigint
   : never | T extends boolean
   ? boolean
+  : never | unknown extends T
+  ? unknown
   : never | T extends any[]
   ? T extends [infer Head, ...infer Tail]
-    ? [ForceWidening<Head>, ...ForceWidening<Tail>]
+    ? [WidenStructure<Head>, ...WidenStructure<Tail>]
     : []
   :
       | never
       | {
-          [K in keyof T]: T[K] extends Function ? T[K] : ForceWidening<T[K]>;
+          [K in keyof T]: T[K] extends Function ? T[K] : WidenStructure<T[K]>;
         };

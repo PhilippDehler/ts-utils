@@ -7,13 +7,13 @@ export type Compare<A extends ByteArray, B extends ByteArray> = CompareSameSize<
   ZipSoft<A, B, Zero>
 >;
 
-type CompareSameSize<A extends Pair<Bit,Bit>[]> = A extends [
-  infer P extends Pair<Bit,Bit>,
-  ...infer RestP extends Pair<Bit,Bit>[],
+type CompareSameSize<A extends Pair<Bit, Bit>[]> = A extends [
+  infer P extends Pair<Bit, Bit>,
+  ...infer RestP extends Pair<Bit, Bit>[],
 ]
   ? BitCompareTable[P[0]][P[1]] extends SAME
-      ? CompareSameSize<RestP>
-      : BitCompareTable[P[0]][P[1]]
+    ? CompareSameSize<RestP>
+    : BitCompareTable[P[0]][P[1]]
   : SAME;
 
 export type GTEComparision<
