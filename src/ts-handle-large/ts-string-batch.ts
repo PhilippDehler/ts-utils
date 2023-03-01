@@ -1,5 +1,3 @@
-import { Args, Call, EmptyLambda, Lambda } from "../ts-lambda";
-
 type StringBatches1<T> = T extends `${string}${infer Rest}`
   ? T extends `${infer Head}${Rest}`
     ? [Rest, Head]

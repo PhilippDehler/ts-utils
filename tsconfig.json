@@ -11,8 +11,6 @@
       "DOM",
       "ESNext"
     ],
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
     "skipLibCheck": true
   }
 }
